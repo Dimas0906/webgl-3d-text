@@ -8,7 +8,7 @@ import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
  * Base
  */
 // Debug
-const gui = new GUI();
+// const gui = new GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -22,7 +22,9 @@ const scene = new THREE.Scene();
 const textureLoader = new THREE.TextureLoader();
 
 const matcapTexture = textureLoader.load("/textures/matcaps/8.png");
+const matcapTexture2 = textureLoader.load("/textures/matcaps/1.png");
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
+matcapTexture2.colorSpace = THREE.SRGBColorSpace;
 
 // Load Font
 const fontLoader = new FontLoader();
@@ -41,7 +43,19 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     bevelSegments: 3,
   });
 
-  const newYear = new TextGeometry("Happpy New Year - 2025", {
+  const newYear = new TextGeometry("Happy New Year - 2025", {
+    font: font,
+    size: 0.3,
+    depth: 0.2,
+    curveSegments: 5,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 3,
+  });
+
+  const philo = new TextGeometry("- Philoo", {
     font: font,
     size: 0.3,
     depth: 0.2,
@@ -54,26 +68,32 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
   });
 
   newYear.center();
-
-  // Cemteromg Text
   textGeometry.center();
+  philo.center();
 
   const customMaterial = new THREE.MeshMatcapMaterial({
     matcap: matcapTexture,
   });
+
+  const customMaterial2 = new THREE.MeshMatcapMaterial({
+    matcap: matcapTexture2,
+  });
+
   const text = new THREE.Mesh(textGeometry, customMaterial);
   const newYearText = new THREE.Mesh(newYear, customMaterial);
+  const philoText = new THREE.Mesh(philo, customMaterial2);
+
   const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
 
-  // Manipulate the text
+  // Manipulate the position of the text
   newYearText.position.y = 1;
+  philoText.position.y = -1.5;
 
   scene.add(text);
   scene.add(newYearText);
+  scene.add(philoText);
 
   for (let i = 0; i < 100; i++) {
-    console.log(i);
-
     const donut = new THREE.Mesh(donutGeometry, customMaterial);
 
     donut.position.x = (Math.random() - 0.5) * 10;
@@ -123,9 +143,11 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.x = 1;
-camera.position.y = 1;
-camera.position.z = 3;
+
+camera.position.x = - 1.3;
+camera.position.y = .8;
+camera.position.z = 2.6;
+
 scene.add(camera);
 
 // Controls
