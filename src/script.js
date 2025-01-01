@@ -41,6 +41,20 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     bevelSegments: 3,
   });
 
+  const newYear = new TextGeometry("Happpy New Year - 2025", {
+    font: font,
+    size: 0.3,
+    depth: 0.2,
+    curveSegments: 5,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 3,
+  });
+
+  newYear.center();
+
   // Cemteromg Text
   textGeometry.center();
 
@@ -48,9 +62,14 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     matcap: matcapTexture,
   });
   const text = new THREE.Mesh(textGeometry, customMaterial);
+  const newYearText = new THREE.Mesh(newYear, customMaterial);
   const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
 
+  // Manipulate the text
+  newYearText.position.y = 1;
+
   scene.add(text);
+  scene.add(newYearText);
 
   for (let i = 0; i < 100; i++) {
     console.log(i);
@@ -106,7 +125,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 3;
 scene.add(camera);
 
 // Controls
